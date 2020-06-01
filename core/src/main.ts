@@ -75,8 +75,13 @@ function getAccessToken(oAuth2Client: any, callback: Function) {
     });
 }
 
+interface DriveEntity {
+    id: string;
+    name: string;
+}
+
 interface DriveData {
-    data: Array<{ name: string; id: string }>;
+    data: Array<DriveEntity>;
     nextPageToken?: string;
 }
 
@@ -101,7 +106,7 @@ async function getPage(auth: any, pageToken?: string): Promise<DriveData> {
                     resolve(driveData);
                     return;
                 }
-                reject('No files found.')
+                resolve({ data: [] });
             });
     });
 }
@@ -112,9 +117,18 @@ async function getPage(auth: any, pageToken?: string): Promise<DriveData> {
  */
 async function listFiles(auth: any): Promise<void> {
     let pageToken: string | undefined = undefined;
+
+    const data: Array<DriveEntity> = [];
     do {
         const result: DriveData = await getPage(auth, pageToken);
-        result.data.map(file => console.log(`${file.name} (${file.id}`));
+        data.push(...result.data);
         pageToken = result.nextPageToken;
     } while (pageToken);
+
+    if (!data.length) {
+        console.log('No items found.');
+        return;
+    }
+
+    data.map(el => console.log(`${el.name} (${el.id}`));
 }
