@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+    include includes/head
+    body
+        main(class="container")
+            h1 Drive Sync | Your Google Drive Code
+            div
+                p Copy the following code into the Drive Sync Application:
+                code(id="app-code")= code
+                button(class="btn btn-info btn-clipboard" data-clipboard-action="copy" data-clipboard-target="#app-code")
+                    | Copy

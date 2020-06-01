@@ -1,0 +1,8 @@
+main > div {
+    margin-top: 2em;
+}
+
+main code {
+    padding: 0.8em;
+    border: 1px solid #eaeaea;
+}
